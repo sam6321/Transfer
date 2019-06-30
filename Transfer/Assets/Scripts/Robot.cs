@@ -31,9 +31,11 @@ public abstract class Robot : MonoBehaviour
     private Coroutine transformCoroutine = null;
 
     private DragSource dragSource;
+    private TileManager tileManager;
 
     private void Start()
     {
+        tileManager = GameObject.Find("Tiles").GetComponent<TileManager>();
         dragSource = GetComponent<DragSource>();
         if(program)
         {
@@ -75,11 +77,12 @@ public abstract class Robot : MonoBehaviour
         else
         {
             Vector3 target = transform.position + transform.forward * steps;
-            if(Mathf.Abs(target.x) > 10 || Mathf.Abs(target.y) > 10 || Mathf.Abs(target.z) > 10)
+            target.y = 0;
+            // Check if there's a tile here to walk on
+            if(tileManager.TileExists(target))
             {
-                return;
+                StartCoroutine(MoveCoroutine(steps));
             }
-            StartCoroutine(MoveCoroutine(steps));
         }
     }
 
