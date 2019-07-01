@@ -6,9 +6,8 @@ public class DragSource : MonoBehaviour
     private RectTransform canvas;
 
     [SerializeField]
-    private GameObject popupPrefab = null;    
+    private GameObject popupPrefab = null;
 
-    [SerializeField]
     private GameObject popup = null;
 
     [SerializeField]
@@ -20,34 +19,17 @@ public class DragSource : MonoBehaviour
     private bool mousedOver = false;
     private bool drag = false;
 
-    public GameObject PopupPrefab
+    public GameObject Popup
     {
-        get => popupPrefab;
-        set
+        get
         {
-            if(value != popupPrefab)
+            if (!popup && popupPrefab)
             {
-                bool active = false;
-                Vector2? lastPosition = null;
-                if(popup)
-                {
-                    active = popup.activeSelf;
-                    lastPosition = popup.transform.position;
-                    Destroy(popup);
-                    popup = null;
-                }
-
-                popupPrefab = value;
-                if(popupPrefab)
-                {
-                    popup = Instantiate(popupPrefab, canvas);
-                    popup.SetActive(active);
-                    if(lastPosition.HasValue)
-                    {
-                        popup.transform.position = lastPosition.Value;
-                    }
-                }
+                popup = Instantiate(popupPrefab, canvas);
+                popup.SetActive(false);
             }
+
+            return popup;
         }
     }
 
@@ -95,12 +77,12 @@ public class DragSource : MonoBehaviour
             return;
         }
 
-        if(!popup)
+        if (!popup)
         {
             popup = Instantiate(popupPrefab, canvas);
         }
 
-        if(!popup.activeSelf)
+        if (!popup.activeSelf)
         {
             popup.SetActive(true);
         }
@@ -108,14 +90,14 @@ public class DragSource : MonoBehaviour
 
     private void HideDragPopup()
     {
-        if(!popupPrefab || !popup || drag)
+        if(!popupPrefab || drag)
         {
             return;
         }
 
-        if(popup.activeSelf)
+        if(Popup.activeSelf)
         {
-            popup.SetActive(false);
+            Popup.SetActive(false);
         }
     }
 

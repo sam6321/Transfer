@@ -19,16 +19,12 @@ public abstract class Robot : MonoBehaviour
             if(program != value)
             {
                 program = value;
-                dragSource.PopupPrefab = program.programPopupPrefab;
+                dragSource.Popup.GetComponent<ProgramPopup>().Program = program;
             }
         }
     }
 
-    public bool IsRunningAbilityCoroutine => abilityCoroutine != null;
-    public bool IsRunningTransformCoroutime => transformCoroutine != null;
-
-    private Coroutine abilityCoroutine = null;
-    private Coroutine transformCoroutine = null;
+    private Coroutine programCoroutine = null;
 
     private DragSource dragSource;
     private TileManager tileManager;
@@ -37,17 +33,29 @@ public abstract class Robot : MonoBehaviour
     {
         tileManager = GameObject.Find("Tiles").GetComponent<TileManager>();
         dragSource = GetComponent<DragSource>();
-        if(program)
+        if(program != null)
         {
-            dragSource.PopupPrefab = program.programPopupPrefab;
+            dragSource.Popup.GetComponent<ProgramPopup>().Program = program;
         }
     }
     
-    public void InvokeCurrentProgram()
+    public void InvokeCurrentProgram(float stepDelay)
     {
-        if(program != null)
+        if(programCoroutine != null)
         {
-            program.Invoke(this);
+            programCoroutine = StartCoroutine(RunProgram(program, stepDelay));
+        }
+    }
+
+    private IEnumerator RunProgram(Program program, float stepDelay)
+    {
+        for (int i = 0; i < program.Actions.Count; i++)
+        {
+            program.Actions[i].Invoke(this);
+            if (i != program.Actions.Count - 1)
+            {
+                yield return new WaitForSeconds(stepDelay);
+            }
         }
     }
 
@@ -70,19 +78,12 @@ public abstract class Robot : MonoBehaviour
     /// <param name="steps">Movement steps</param>
     public void Move(int steps)
     {
-        if(IsRunningTransformCoroutime)
+        Vector3 target = transform.position + transform.forward * steps;
+        target.y = 0;
+        // Check if there's a tile here to walk on
+        if(tileManager.TileExists(target))
         {
-            print("Move called while transformCoroutine is running");
-        }
-        else
-        {
-            Vector3 target = transform.position + transform.forward * steps;
-            target.y = 0;
-            // Check if there's a tile here to walk on
-            if(tileManager.TileExists(target))
-            {
-                StartCoroutine(MoveCoroutine(steps));
-            }
+            StartCoroutine(MoveCoroutine(steps));
         }
     }
 
@@ -94,14 +95,7 @@ public abstract class Robot : MonoBehaviour
     /// <param name="steps">Rotation steps</param>
     public void Rotate(int steps)
     {
-        if(IsRunningTransformCoroutime)
-        {
-            print("Rotate called while transformCoroutine is running");
-        }
-        else
-        {
-            StartCoroutine(RotateCoroutine(steps));
-        }
+        StartCoroutine(RotateCoroutine(steps));
     }
 
     /// <summary>
@@ -110,22 +104,10 @@ public abstract class Robot : MonoBehaviour
     /// <returns></returns>
     public void UseAbility()
     {
-        if(IsRunningAbilityCoroutine)
-        {
-            print("UseAbility called while abilityCouroutine is running");
-        }
-        else
-        {
-            StartCoroutine(UseAbilityCoroutine());
-        }
+        StartCoroutine(UseAbilityCoroutine());
     }
 
     protected abstract IEnumerator UseAbilityCoroutine();
-
-    protected void FinishAbilityCoroutine()
-    {
-        abilityCoroutine = null;
-    }
 
     private IEnumerator MoveCoroutine(int steps)
     {
@@ -141,8 +123,6 @@ public abstract class Robot : MonoBehaviour
             transform.position = Vector3.Lerp(startPosition, targetPosition, t);
             yield return null;
         }
-
-        transformCoroutine = null;
     }
 
     private IEnumerator RotateCoroutine(int steps)
@@ -160,7 +140,5 @@ public abstract class Robot : MonoBehaviour
             transform.eulerAngles = new Vector3(0, rotation, 0);
             yield return null;
         }
-
-        transformCoroutine = null;
     }
 }

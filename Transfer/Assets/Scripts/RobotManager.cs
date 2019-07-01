@@ -9,6 +9,10 @@ public class RobotManager : MonoBehaviour
     private float updateDelay = 0.5f;
 
     [SerializeField]
+    [Tooltip("Delay between steps in multi-step programs")]
+    private float stepDelay = 0.1f;
+
+    [SerializeField]
     private List<Robot> robots = new List<Robot>();
 
     private void Start()
@@ -22,7 +26,7 @@ public class RobotManager : MonoBehaviour
         {
             foreach(Robot robot in robots)
             {
-                robot.InvokeCurrentProgram();
+                robot.InvokeCurrentProgram(stepDelay);
             }
             yield return new WaitForSeconds(updateDelay);
         }
