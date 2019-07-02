@@ -8,27 +8,73 @@ public class RobotManager : MonoBehaviour
     [Tooltip("Robot update delay, in seconds between updates")]
     private float updateDelay = 0.5f;
 
+    public float UpdateDelay
+    {
+        get => updateDelay;
+        set => updateDelay = value;
+    }
+
     [SerializeField]
     [Tooltip("Delay between steps in multi-step programs")]
     private float stepDelay = 0.1f;
 
+    public float StepDelay
+    {
+        get => stepDelay;
+        set => stepDelay = value;
+    }
+
+    [SerializeField]
+    [Tooltip("Delay between robots taking action")]
+    private float robotStepDelay = 0.5f;
+
+    public float RobotStepDelay
+    {
+        get => robotStepDelay;
+        set => robotStepDelay = value;
+    }
+
+    [SerializeField]
+    [Tooltip("Time that each robot action should take")]
+    private float robotActionTime = 0.1f;
+
+    public float RobotActionTime
+    {
+        get => robotActionTime;
+        set => robotActionTime = value;
+    }
+
     [SerializeField]
     private List<Robot> robots = new List<Robot>();
 
-    private void Start()
+    public float NextUpdate { get; private set; } = 0;
+
+    private Coroutine robotExecutingCoroutine = null;
+
+    private void Update()
     {
-        StartCoroutine(RobotUpdate());
+        if(Time.time >= NextUpdate && robotExecutingCoroutine == null)
+        {
+            robotExecutingCoroutine = StartCoroutine(ExecuteRobots());
+        }
     }
 
-    private IEnumerator RobotUpdate()
+    private IEnumerator ExecuteRobots()
     {
-        while(true)
+        foreach (Robot robot in robots)
         {
-            foreach(Robot robot in robots)
-            {
-                robot.InvokeCurrentProgram(stepDelay);
-            }
-            yield return new WaitForSeconds(updateDelay);
+            // Spin in place here until the robot has finished its turn.
+            bool completed = false;
+            robot.InvokeCurrentProgram(robotActionTime, stepDelay, r => completed = true);
+            yield return new WaitUntil(() => completed == true);
         }
+
+        NextUpdate = Time.time + updateDelay;
+        robotExecutingCoroutine = null;
+    }
+
+    public void ForceStep()
+    {
+        NextUpdate = Time.time;
     }
 }

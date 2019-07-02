@@ -30,15 +30,19 @@ public class ProgramPopup : MonoBehaviour
             EnsureEnoughImages(program.Actions.Count);
             for(int i = 0; i < imagesCache.Count; i++)
             {
+                Image image = imagesCache[i];
                 if(i >= program.Actions.Count)
                 {
-                    imagesCache[i].gameObject.SetActive(false);
+                    image.gameObject.SetActive(false);
                 }
                 else
                 {
-                    imagesCache[i].sprite = program.Actions[i].icon;
+                    image.gameObject.SetActive(true);
+                    image.sprite = program.Actions[i].icon;
                 }
             }
+
+            LayoutRebuilder.ForceRebuildLayoutImmediate(transform as RectTransform);
         }
     }
 

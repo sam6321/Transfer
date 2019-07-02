@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 9c03a35c2ee01d14a8e2219db3078928, type: 3}
   displayName: Turn Left
-  steps: 1
+  steps: -1

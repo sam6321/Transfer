@@ -5,8 +5,8 @@ class ProgramActionMove : ProgramAction
 {
     public int steps = 1;
 
-    public override void Invoke(Robot self)
+    public override bool Invoke(Robot self, float time)
     {
-        self.Move(steps);
+        return self.Move(steps, time);
     }
 }
