@@ -1,10 +1,16 @@
 ﻿using System.Collections;
-using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using System;
 
 public abstract class Robot : MonoBehaviour
 {
+    private class TriggerFireInfo
+    {
+        public TileTrigger trigger; // The trigger to fire
+        public int pastStep; // The step that this trigger should fire on
+    }
+
     [SerializeField]
     [Tooltip("The current program that the robot is running")]
     private Program program = null;
@@ -65,6 +71,7 @@ public abstract class Robot : MonoBehaviour
                 // Wait for the step to finish
                 yield return new WaitForSeconds(stepTime);
             }
+
             if (i != program.Actions.Count - 1)
             {
                 // Wait for the delay between steps, but not for the last step 
@@ -98,15 +105,54 @@ public abstract class Robot : MonoBehaviour
     /// <returns>True if the move will take place, false if the robot is blocked and will not move</returns>
     public bool Move(int steps, float time)
     {
-        Vector3 target = transform.position + transform.forward * steps;
-        target.y = 0;
-        // Check if there's a tile here to walk on
-        if(tileManager.TileExists(target))
+        // Step and collect triggers
+        List<TriggerFireInfo> triggers = new List<TriggerFireInfo>();
+        steps = CheckMove(steps, triggers);
+
+        if (steps > 0)
         {
-            StartCoroutine(MoveCoroutine(steps, time));
+            StartCoroutine(MoveCoroutine(steps, time, triggers));
             return true;
         }
         return false;
+    }
+
+    private int CheckMove(int steps, IList<TriggerFireInfo> triggers)
+    {
+        // Check all tiles along the way and move to the closest one along the movement path.
+        for (int i = 0; i < steps; i++)
+        {
+            Vector3 target = transform.position + transform.forward * (i + 1);
+            Vector3 targetGround = new Vector3(target.x, 0, target.z);
+
+            if (!tileManager.TileExists(targetGround))
+            {
+                return i; // stop here because there's nothing infront of us
+            }
+
+            // Check if the robot will move over a trigger of some sort. If it will, check the type of trigger
+            TileTrigger trigger = tileManager.GetTileComponent<TileTrigger>(target);
+            if (trigger)
+            {
+                // Add this trigger to be fired.
+                triggers.Add(new TriggerFireInfo() { trigger = trigger, pastStep = i});
+
+                // This will move over this trigger
+                switch (trigger.ResponseType)
+                {
+                    default:
+                    case TileTrigger.TriggerResponseType.MoveOver:
+                        // Move over this tile
+                        break;
+
+                    case TileTrigger.TriggerResponseType.StopOn:
+                        // The move should stop here on this trigger
+                        return i + 1;
+                }
+            }
+        }
+
+        return steps;
     }
 
     /// <summary>
@@ -135,7 +181,7 @@ public abstract class Robot : MonoBehaviour
 
     protected abstract IEnumerator UseAbilityCoroutine();
 
-    private IEnumerator MoveCoroutine(int steps, float time)
+    private IEnumerator MoveCoroutine(int steps, float time, IList<TriggerFireInfo> triggers)
     {
         Vector3 startPosition = transform.position;
         Vector3 targetPosition = transform.position + transform.forward * steps;
@@ -147,23 +193,35 @@ public abstract class Robot : MonoBehaviour
             float t = Mathf.InverseLerp(startTime, targetTime, Time.time);
             t = Mathf.SmoothStep(0.0f, 1.0f, t);
             transform.position = Vector3.Lerp(startPosition, targetPosition, t);
+
+            // Check if this position has moved on or past the triggers
+            for(int i = triggers.Count - 1; i >= 0; i--)
+            {
+                TriggerFireInfo fire = triggers[i];
+                if(t >= fire.pastStep / (float)steps)
+                {
+                    // We're on top of or past the trigger now so fire that bad boy!
+                    fire.trigger.InvokeTrigger(this);
+                    triggers.RemoveAt(i);
+                }
+            }
+
             yield return null;
         }
     }
 
     private IEnumerator RotateCoroutine(int steps, float time)
     {
-        float startRotation = transform.eulerAngles.y;
-        float targetRotation = transform.eulerAngles.y + steps * 90;
+        Quaternion startRotation = transform.rotation;
+        Quaternion targetRotation = transform.rotation * Quaternion.AngleAxis(steps * 90, Vector3.up);
         float startTime = Time.time;
         float targetTime = startTime + time;
 
-        while (transform.eulerAngles.y != targetRotation)
+        while (transform.rotation != targetRotation)
         {
             float t = Mathf.InverseLerp(startTime, targetTime, Time.time);
             t = Mathf.SmoothStep(0.0f, 1.0f, t);
-            float rotation = Mathf.LerpAngle(startRotation, targetRotation, t);
-            transform.eulerAngles = new Vector3(0, rotation, 0);
+            transform.rotation = Quaternion.Slerp(startRotation, targetRotation, t);
             yield return null;
         }
     }

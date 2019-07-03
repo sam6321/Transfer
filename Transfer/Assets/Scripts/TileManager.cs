@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TileManager : MonoBehaviour
 {
-    private Dictionary<Vector3Int, Tile> tileDict = new Dictionary<Vector3Int, Tile>();
+    private Dictionary<Vector3Int, GameObject> tileDict = new Dictionary<Vector3Int, GameObject>();
 
     Vector3Int ToVector3Int(Vector3 v)
     {
@@ -20,10 +20,10 @@ public class TileManager : MonoBehaviour
     {
         for(int i = 0; i < transform.childCount; i++)
         {
-            Tile tile = transform.GetChild(i).GetComponent<Tile>();
-            if(tile)
+            Transform child = transform.GetChild(i);
+            if(child.CompareTag("Tile"))
             {
-                tileDict.Add(ToVector3Int(tile.transform.position), tile);
+                tileDict.Add(ToVector3Int(child.position), child.gameObject);
             }
         }
     }
@@ -33,9 +33,15 @@ public class TileManager : MonoBehaviour
         return tileDict.ContainsKey(ToVector3Int(position));
     }
 
-    public Tile GetTile(Vector3 position)
+    public T GetTileComponent<T>(Vector3 position) where T : MonoBehaviour
     {
-        if (tileDict.TryGetValue(ToVector3Int(position), out Tile value))
+        GameObject tile = GetTile(position);
+        return tile ? tile.GetComponent<T>() : null;
+    }
+
+    public GameObject GetTile(Vector3 position)
+    {
+        if (tileDict.TryGetValue(ToVector3Int(position), out GameObject value))
         {
             return value;
         }
