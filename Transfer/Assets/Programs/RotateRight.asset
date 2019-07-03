@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39dfc9934339ac6459b8812c8b6254d0, type: 3}
   m_Name: RotateRight
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 9c03a35c2ee01d14a8e2219db3078928, type: 3}
+  icon: {fileID: 21300000, guid: d3fcce89caf4fa47b8cf93b020a2774c, type: 3}
   displayName: TurnRight
   steps: 1

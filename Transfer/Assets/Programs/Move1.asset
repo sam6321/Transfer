@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dcac4cca7583db41b0fd438816bcbe6, type: 3}
   m_Name: Move1
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: f15eb3a2dd4991a4f95d6d717fba644f, type: 3}
+  icon: {fileID: 21300000, guid: 35de08016b9a464819fcf08438667559, type: 3}
   displayName: Move 1
   steps: 1

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39dfc9934339ac6459b8812c8b6254d0, type: 3}
   m_Name: RotateLeft
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 9c03a35c2ee01d14a8e2219db3078928, type: 3}
+  icon: {fileID: 21300000, guid: 6908c1a365a70c431a70bd0f284018d8, type: 3}
   displayName: Turn Left
   steps: -1
