@@ -1,16 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
 public abstract class Robot : MonoBehaviour
 {
-    private class TriggerFireInfo
-    {
-        public TileTrigger trigger; // The trigger to fire
-        public int pastStep; // The step that this trigger should fire on
-    }
-
     [SerializeField]
     [Tooltip("The current program that the robot is running")]
     private Program program = null;
@@ -106,18 +99,17 @@ public abstract class Robot : MonoBehaviour
     public bool Move(int steps, float time)
     {
         // Step and collect triggers
-        List<TriggerFireInfo> triggers = new List<TriggerFireInfo>();
-        steps = CheckMove(steps, triggers);
+        steps = CheckMove(steps);
 
         if (steps > 0)
         {
-            StartCoroutine(MoveCoroutine(steps, time, triggers));
+            StartCoroutine(MoveCoroutine(steps, time));
             return true;
         }
         return false;
     }
 
-    private int CheckMove(int steps, IList<TriggerFireInfo> triggers)
+    private int CheckMove(int steps)
     {
         // Check all tiles along the way and move to the closest one along the movement path.
         for (int i = 0; i < steps; i++)
@@ -127,28 +119,46 @@ public abstract class Robot : MonoBehaviour
 
             if (!tileManager.TileExists(targetGround))
             {
-                return i; // stop here because there's nothing infront of us
+                return i; // stop here because there's nothing infront of us to step on
             }
 
-            // Check if the robot will move over a trigger of some sort. If it will, check the type of trigger
-            TileTrigger trigger = tileManager.GetTileComponent<TileTrigger>(target);
-            if (trigger)
+            GameObject tileAtTarget = tileManager.GetTile(target);
+            if(tileAtTarget)
             {
-                // Add this trigger to be fired.
-                triggers.Add(new TriggerFireInfo() { trigger = trigger, pastStep = i});
-
-                // This will move over this trigger
-                switch (trigger.ResponseType)
+                // there's something in our way, but we may be able to move onto / over it
+                TileTrigger trigger = tileAtTarget.GetComponent<TileTrigger>();
+                if(trigger)
                 {
-                    default:
-                    case TileTrigger.TriggerResponseType.MoveOver:
-                        // Move over this tile
-                        break;
-
-                    case TileTrigger.TriggerResponseType.StopOn:
-                        // The move should stop here on this trigger
+                    if(trigger.ResponseType == TileTrigger.TriggerResponseType.StopOn)
+                    {
+                        // This is a trigger we should stop on
                         return i + 1;
+                    }
+                    else
+                    {
+                        // This tile is free to move onto
+                        continue;
+                    }
                 }
+
+                // Not a trigger, maybe it's a blocker?
+                TileBlocker blocker = tileAtTarget.GetComponent<TileBlocker>();
+                if(blocker)
+                {
+                    if(blocker.Block)
+                    {
+                        // Can't move onto this blocker, so stop here.
+                        return i;
+                    }
+                    else
+                    {
+                        // This tile is free to move onto
+                        continue;
+                    }
+                }
+
+                // Anything else, do not allow us to move onto it (it's a wall, probably)
+                return i;
             }
         }
 
@@ -181,7 +191,7 @@ public abstract class Robot : MonoBehaviour
 
     protected abstract IEnumerator UseAbilityCoroutine();
 
-    private IEnumerator MoveCoroutine(int steps, float time, IList<TriggerFireInfo> triggers)
+    private IEnumerator MoveCoroutine(int steps, float time)
     {
         Vector3 startPosition = transform.position;
         Vector3 targetPosition = transform.position + transform.forward * steps;
@@ -193,19 +203,6 @@ public abstract class Robot : MonoBehaviour
             float t = Mathf.InverseLerp(startTime, targetTime, Time.time);
             t = Mathf.SmoothStep(0.0f, 1.0f, t);
             transform.position = Vector3.Lerp(startPosition, targetPosition, t);
-
-            // Check if this position has moved on or past the triggers
-            for(int i = triggers.Count - 1; i >= 0; i--)
-            {
-                TriggerFireInfo fire = triggers[i];
-                if(t >= fire.pastStep / (float)steps)
-                {
-                    // We're on top of or past the trigger now so fire that bad boy!
-                    fire.trigger.InvokeTrigger(this);
-                    triggers.RemoveAt(i);
-                }
-            }
-
             yield return null;
         }
     }

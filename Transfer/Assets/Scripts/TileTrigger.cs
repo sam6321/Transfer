@@ -1,11 +1,12 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.Events;
+﻿using UnityEngine;
 
 public class TileTrigger : MonoBehaviour
-{
-    [Serializable]
-    public class OnTriggerEvent : UnityEvent<TileTrigger, Robot> { }
+{ 
+    public class TriggerInfo
+    {
+        public Robot robot;
+        public bool enter;
+    }
 
     public enum TriggerResponseType
     {
@@ -17,12 +18,21 @@ public class TileTrigger : MonoBehaviour
     private TriggerResponseType responseType;
     public TriggerResponseType ResponseType => responseType;
 
-    [SerializeField]
-    private OnTriggerEvent onTrigger = new OnTriggerEvent();
-    public OnTriggerEvent OnTrigger => onTrigger;
-
-    public void InvokeTrigger(Robot robot)
+    private void OnTriggerEnter(Collider collider)
     {
-        onTrigger.Invoke(this, robot);
+        Robot robot = collider.GetComponent<Robot>();
+        if(robot)
+        {
+            SendMessage("OnTrigger", new TriggerInfo() { robot = robot, enter = true });
+        }
+    }
+
+    private void OnTriggerExit(Collider collider)
+    {
+        Robot robot = collider.GetComponent<Robot>();
+        if(robot)
+        {
+            SendMessage("OnTrigger", new TriggerInfo() { robot = robot, enter = false });
+        }
     }
 }
