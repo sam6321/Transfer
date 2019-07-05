@@ -44,12 +44,23 @@ public class RobotManager : MonoBehaviour
         set => robotActionTime = value;
     }
 
-    [SerializeField]
     private List<Robot> robots = new List<Robot>();
 
     public float NextUpdate { get; private set; } = 0;
 
     private Coroutine robotExecutingCoroutine = null;
+
+    private void Start()
+    {
+        for(int i = 0; i < transform.childCount; i++)
+        {
+            Robot robot = transform.GetChild(i).GetComponent<Robot>();
+            if(robot)
+            {
+                robots.Add(robot);
+            }
+        }
+    }
 
     private void Update()
     {

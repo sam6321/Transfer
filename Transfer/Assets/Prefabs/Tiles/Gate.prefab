@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 326139142927868444}
   - component: {fileID: 326139142927868443}
-  - component: {fileID: 326139142927868445}
   - component: {fileID: 326139142927868442}
   m_Layer: 0
   m_Name: Gate
@@ -47,34 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   block: 1
-  onToggle:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 326139142927868445}
-        m_MethodName: SetGate
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: TileBlocker+OnToggleEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
---- !u!114 &326139142927868445
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 326139142927868441}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5a7f57d49c0fc54c8701f3d3c6fdb88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  blockingType: 0
+  blockDirection: {x: -1, y: 0, z: 0}
 --- !u!95 &326139142927868442
 Animator:
   serializedVersion: 3
@@ -109,7 +82,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: ed002a3aee2ba75f4ab6a38853557d3a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: ed002a3aee2ba75f4ab6a38853557d3a,
         type: 3}

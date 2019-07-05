@@ -24,7 +24,7 @@ AnimatorState:
   m_Motion: {fileID: 7400000, guid: 2ab39252e39938c45b1c65ff67e33cb7, type: 2}
   m_Tag: 
   m_SpeedParameter: 
-  m_MirrorParameter: down
+  m_MirrorParameter: block
   m_CycleOffsetParameter: time
   m_TimeParameter: time
 --- !u!1102 &-349077512847459508
@@ -62,8 +62,8 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: down
+  - m_ConditionMode: 1
+    m_ConditionEvent: block
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -349077512847459508}
@@ -88,7 +88,7 @@ AnimatorController:
   m_Name: Gate
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: down
+  - m_Name: block
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -137,8 +137,8 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: down
+  - m_ConditionMode: 2
+    m_ConditionEvent: block
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4011396109608689813}

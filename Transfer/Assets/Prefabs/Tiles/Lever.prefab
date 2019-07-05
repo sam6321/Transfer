@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7087210061097095074}
+  - component: {fileID: 6503552270697926998}
   - component: {fileID: 7087210061097095075}
-  - component: {fileID: 7087210061097095076}
   - component: {fileID: 7087210061097095077}
   - component: {fileID: 2987018080529336845}
   m_Layer: 0
@@ -35,6 +35,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6503552270697926998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7087210061097095078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed82096397227b541a5b9c436cc80c0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toggled: 0
+  toggleOnEnter: 1
+  toggleOnLeave: 0
+  onToggle:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: ToggleTile+OnToggleEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onToggleOn:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: ToggleTile+OnToggleOnEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onToggleOff:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: ToggleTile+OnToggleOffEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &7087210061097095075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48,35 +78,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   responseType: 0
-  onTrigger:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7087210061097095076}
-        m_MethodName: OnTrigger
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: TileTrigger+OnTriggerEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
---- !u!114 &7087210061097095076
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7087210061097095078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47e8bdb507eace742852c65a808274e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  flipped: 0
 --- !u!95 &7087210061097095077
 Animator:
   serializedVersion: 3

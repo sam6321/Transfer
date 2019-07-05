@@ -2,7 +2,7 @@
 using UnityEngine;
 using System;
 
-public abstract class Robot : MonoBehaviour
+public class Robot : MonoBehaviour
 {
     [SerializeField]
     [Tooltip("The current program that the robot is running")]
@@ -111,6 +111,16 @@ public abstract class Robot : MonoBehaviour
 
     private int CheckMove(int steps)
     {
+        TileBlocker sittingOnBlocker = tileManager.GetTileComponent<TileBlocker>(transform.position);
+        if (sittingOnBlocker)
+        {
+            if(sittingOnBlocker.CheckBlock(transform.position, transform.position + transform.forward) != TileBlocker.BlockType.None)
+            {
+                // Can't move in this direction while on this blocker
+                return 0;
+            }
+        }
+
         // Check all tiles along the way and move to the closest one along the movement path.
         for (int i = 0; i < steps; i++)
         {
@@ -145,15 +155,17 @@ public abstract class Robot : MonoBehaviour
                 TileBlocker blocker = tileAtTarget.GetComponent<TileBlocker>();
                 if(blocker)
                 {
-                    if(blocker.Block)
+                    switch(blocker.CheckBlock(transform.position, target))
                     {
-                        // Can't move onto this blocker, so stop here.
-                        return i;
-                    }
-                    else
-                    {
-                        // This tile is free to move onto
-                        continue;
+                        case TileBlocker.BlockType.MoveOn:
+                            // Move onto the blocker, but stop there
+                            return i + 1;
+
+                        case TileBlocker.BlockType.None:
+                            continue; // Not blocking movement
+
+                        case TileBlocker.BlockType.StopInfront:
+                            return i;
                     }
                 }
 
@@ -185,11 +197,9 @@ public abstract class Robot : MonoBehaviour
     /// <returns>True if the ability use will take place, or false if the robot cannot use its ability</returns>
     public bool UseAbility()
     {
-        StartCoroutine(UseAbilityCoroutine());
-        return true;
+        //StartCoroutine(UseAbilityCoroutine());
+        return false;
     }
-
-    protected abstract IEnumerator UseAbilityCoroutine();
 
     private IEnumerator MoveCoroutine(int steps, float time)
     {

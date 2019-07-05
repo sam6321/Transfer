@@ -3,9 +3,7 @@ using UnityEngine;
 
 public class TileManager : MonoBehaviour
 {
-    private Dictionary<Vector3Int, GameObject> tileDict = new Dictionary<Vector3Int, GameObject>();
-
-    Vector3Int ToVector3Int(Vector3 v)
+    public static Vector3Int ToVector3Int(Vector3 v)
     {
         return new Vector3Int
         (
@@ -14,6 +12,13 @@ public class TileManager : MonoBehaviour
             Mathf.RoundToInt(v.z)
         );
     }
+
+    public static bool IsSameTile(Vector3 v1, Vector3 v2)
+    {
+        return ToVector3Int(v1) == ToVector3Int(v2);
+    }
+
+    private Dictionary<Vector3Int, GameObject> tileDict = new Dictionary<Vector3Int, GameObject>();
 
     // Start is called before the first frame update
     void Start()
