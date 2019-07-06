@@ -2,6 +2,7 @@
 using UnityEngine;
 using System;
 
+[RequireComponent(typeof(TileMover))]
 public class Robot : MonoBehaviour
 {
     [SerializeField]
@@ -24,13 +25,15 @@ public class Robot : MonoBehaviour
     private Coroutine programCoroutine = null;
 
     private DragSource dragSource;
+    private TileMover mover;
     private TileManager tileManager;
 
     private void Start()
     {
         tileManager = GameObject.Find("Tiles").GetComponent<TileManager>();
         dragSource = GetComponent<DragSource>();
-        if(program != null)
+        mover = GetComponent<TileMover>();
+        if (program != null)
         {
             dragSource.Popup.GetComponent<ProgramPopup>().Program = program;
         }
@@ -90,108 +93,6 @@ public class Robot : MonoBehaviour
     }
 
     /// <summary>
-    /// Move the robot forward / backwards this many steps.
-    /// Positive numbers move forward, negative numbers move backward.
-    /// </summary>
-    /// <param name="steps">Movement steps</param>
-    /// <param name="time">Time to apply the movement over</param>
-    /// <returns>True if the move will take place, false if the robot is blocked and will not move</returns>
-    public bool Move(int steps, float time)
-    {
-        // Step and collect triggers
-        steps = CheckMove(steps);
-
-        if (steps > 0)
-        {
-            StartCoroutine(MoveCoroutine(steps, time));
-            return true;
-        }
-        return false;
-    }
-
-    private int CheckMove(int steps)
-    {
-        TileBlocker sittingOnBlocker = tileManager.GetTileComponent<TileBlocker>(transform.position);
-        if (sittingOnBlocker)
-        {
-            if(sittingOnBlocker.CheckBlock(transform.position, transform.position + transform.forward) != TileBlocker.BlockType.None)
-            {
-                // Can't move in this direction while on this blocker
-                return 0;
-            }
-        }
-
-        // Check all tiles along the way and move to the closest one along the movement path.
-        for (int i = 0; i < steps; i++)
-        {
-            Vector3 target = transform.position + transform.forward * (i + 1);
-            Vector3 targetGround = new Vector3(target.x, 0, target.z);
-
-            if (!tileManager.TileExists(targetGround))
-            {
-                return i; // stop here because there's nothing infront of us to step on
-            }
-
-            GameObject tileAtTarget = tileManager.GetTile(target);
-            if(tileAtTarget)
-            {
-                // there's something in our way, but we may be able to move onto / over it
-                TileTrigger trigger = tileAtTarget.GetComponent<TileTrigger>();
-                if(trigger)
-                {
-                    if(trigger.ResponseType == TileTrigger.TriggerResponseType.StopOn)
-                    {
-                        // This is a trigger we should stop on
-                        return i + 1;
-                    }
-                    else
-                    {
-                        // This tile is free to move onto
-                        continue;
-                    }
-                }
-
-                // Not a trigger, maybe it's a blocker?
-                TileBlocker blocker = tileAtTarget.GetComponent<TileBlocker>();
-                if(blocker)
-                {
-                    switch(blocker.CheckBlock(transform.position, target))
-                    {
-                        case TileBlocker.BlockType.MoveOn:
-                            // Move onto the blocker, but stop there
-                            return i + 1;
-
-                        case TileBlocker.BlockType.None:
-                            continue; // Not blocking movement
-
-                        case TileBlocker.BlockType.StopInfront:
-                            return i;
-                    }
-                }
-
-                // Anything else, do not allow us to move onto it (it's a wall, probably)
-                return i;
-            }
-        }
-
-        return steps;
-    }
-
-    /// <summary>
-    /// Rotate the robot left or right this many steps.
-    /// Each step is 90 degrees.
-    /// Positive numbers move right, negative numbers move left.
-    /// </summary>
-    /// <param name="steps">Rotation steps</param>
-    /// <param name="time">Time to apply the movement over</param>
-    /// <returns>True if the rotation will take place, or false if the robot is blocked and will not rotate</returns>
-    public bool Rotate(int steps, float time)
-    {
-        StartCoroutine(RotateCoroutine(steps, time));
-        return true;
-    }
-
-    /// <summary>
     /// Use the robot's special ability.
     /// </summary>
     /// <returns>True if the ability use will take place, or false if the robot cannot use its ability</returns>
@@ -201,35 +102,13 @@ public class Robot : MonoBehaviour
         return false;
     }
 
-    private IEnumerator MoveCoroutine(int steps, float time)
+    public int Move(int steps, float time)
     {
-        Vector3 startPosition = transform.position;
-        Vector3 targetPosition = transform.position + transform.forward * steps;
-        float startTime = Time.time;
-        float targetTime = startTime + time;
-
-        while (transform.position != targetPosition)
-        {
-            float t = Mathf.InverseLerp(startTime, targetTime, Time.time);
-            t = Mathf.SmoothStep(0.0f, 1.0f, t);
-            transform.position = Vector3.Lerp(startPosition, targetPosition, t);
-            yield return null;
-        }
+        return mover.Move(transform.forward, steps, time);
     }
 
-    private IEnumerator RotateCoroutine(int steps, float time)
+    public bool Rotate(int steps, float time)
     {
-        Quaternion startRotation = transform.rotation;
-        Quaternion targetRotation = transform.rotation * Quaternion.AngleAxis(steps * 90, Vector3.up);
-        float startTime = Time.time;
-        float targetTime = startTime + time;
-
-        while (transform.rotation != targetRotation)
-        {
-            float t = Mathf.InverseLerp(startTime, targetTime, Time.time);
-            t = Mathf.SmoothStep(0.0f, 1.0f, t);
-            transform.rotation = Quaternion.Slerp(startRotation, targetRotation, t);
-            yield return null;
-        }
+        return mover.Rotate(steps, time);
     }
 }

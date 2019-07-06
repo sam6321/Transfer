@@ -7,6 +7,6 @@ class ProgramActionMove : ProgramAction
 
     public override bool Invoke(Robot self, float time)
     {
-        return self.Move(steps, time);
+        return self.Move(steps, time) > 0;
     }
 }

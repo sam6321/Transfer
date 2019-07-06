@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7590701216249168968}
   - component: {fileID: 7590701216249168969}
   - component: {fileID: 7590701216249168974}
+  - component: {fileID: 7487156704299444913}
   - component: {fileID: 7590701216249168975}
   - component: {fileID: 7590701216249168972}
   m_Layer: 0
@@ -97,6 +98,19 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: DropTarget+OnDropEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+--- !u!114 &7487156704299444913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7590701216249168978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87ed2d9f9c9b962469d569f877691c0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveType: 0
 --- !u!135 &7590701216249168975
 SphereCollider:
   m_ObjectHideFlags: 0
