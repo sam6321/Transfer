@@ -11,6 +11,9 @@ public class TimeRemainingPanel : MonoBehaviour
 
     private void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Space)){
+            OnStep();
+        }
         float f = Mathf.InverseLerp(robotManager.NextUpdate - robotManager.UpdateDelay, robotManager.NextUpdate, Time.time);
         progress.transform.localScale = new Vector3(1, 1.0f - f, 1);
     }
