@@ -51,6 +51,10 @@ public class ToggleTile : MonoBehaviour
     public bool ToggleOnLeave { get => toggleOnLeave; set => toggleOnLeave = value; }
 
     [SerializeField]
+    [Tooltip("True if the trigger is a lever, which is only activated along the local x-axis")]
+    private bool isLever = false;
+
+    [SerializeField]
     [Tooltip("Fired when the toggle changes")]
     private OnToggleEvent onToggle = new OnToggleEvent();
     public OnToggleEvent OnToggle => onToggle;
@@ -90,7 +94,28 @@ public class ToggleTile : MonoBehaviour
     {
         if((info.enter && toggleOnEnter) || (!info.enter && toggleOnLeave))
         {
-            Toggle();
+            if(isLever)
+            {
+                LeverTrigger(info);
+            }
+            else
+            {
+                Toggle();
+            }
+        }
+    }
+
+    private void LeverTrigger(TileTrigger.TriggerInfo info)
+    {
+        Vector3 dir = transform.InverseTransformDirection(transform.position - info.robot.transform.position);
+        Debug.Log(dir);
+        if(dir.x > 0.1f)
+        {
+            Toggled = false;
+        }
+        else if(dir.x < -0.1f)
+        {
+            Toggled = true;
         }
     }
 }
