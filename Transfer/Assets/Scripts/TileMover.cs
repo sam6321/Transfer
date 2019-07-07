@@ -15,6 +15,11 @@ public class TileMover : MonoBehaviour
     private TileMoveType moveType = TileMoveType.MoveThrough;
     public TileMoveType MoveType { get => moveType; set => moveType = value; }
 
+    [SerializeField]
+    [Tooltip("If set, this mover will push other movers. If not, this mover will be blocked by other movers")]
+    private bool canPush = true;
+    public bool CanPush { get => canPush; set => canPush = value; }
+
     private TileManager tileManager;
 
     private void Start()
@@ -34,7 +39,7 @@ public class TileMover : MonoBehaviour
     {
         // Move in the direction, then play the moving animation once we've
         // decided where we can move.
-        steps = tileManager.RunMove(transform.position, direction, steps, time);
+        steps = tileManager.RunMove(transform.position, direction, steps, time, canPush);
 
         if (steps > 0)
         {

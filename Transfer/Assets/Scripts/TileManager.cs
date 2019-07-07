@@ -38,7 +38,7 @@ public class TileManager : MonoBehaviour
         }
     }
 
-    public int RunMove(Vector3 position, Vector3 direction, int steps, float time)
+    public int RunMove(Vector3 position, Vector3 direction, int steps, float time, bool canPush)
     {
         if(!CheckBlockers(position, direction))
         {
@@ -75,18 +75,18 @@ public class TileManager : MonoBehaviour
             if(move < MoveBlocked)
             {
                 // We're able to move onto the tile, but we might have a mover on the tile
-                // so so lets see if we can push it out of the way
+                // so so lets see if we can push it out of the way.
                 foreach(TileMover mover in movers)
                 {
                     // Try pushing the mover 1 space
-                    if (mover.Move(direction, 1, time) > 0)
+                    if (canPush && mover.Move(direction, 1, time) > 0)
                     {
                         // We've successfully pushed this mover, so we can move onto its previous spot
                         move = Mathf.Max(move, MoveStopOn);
                     }
                     else
                     {
-                        // Failed to push it, stop here
+                        // Failed to push it, or we're not allowed to push, so stop here
                         move = Mathf.Max(move, MoveBlocked);
                     }
                 }

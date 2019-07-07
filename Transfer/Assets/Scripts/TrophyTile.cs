@@ -1,15 +1,31 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TrophyTile : MonoBehaviour
 {
+    [Serializable]
+    public class OnWinEvent : UnityEvent { }
+
+    [Serializable]
+    public class OnPreWinEvent : UnityEvent { }
+
+    [SerializeField]
+    private OnWinEvent onWin = new OnWinEvent();
+    public OnWinEvent OnWin => onWin;
+
+    [SerializeField]
+    private OnPreWinEvent onPreWin = new OnPreWinEvent();
+    public OnPreWinEvent OnPreWin => onPreWin;
+
     public void OnTrigger(TileTrigger.TriggerInfo info)
     {
         // User wins game on trigger!
         if(info.enter)
         {
+            onPreWin.Invoke();
             StartCoroutine(WinAnimation());
-            Debug.Log("You win fam");
         }
     }
 
@@ -54,5 +70,8 @@ public class TrophyTile : MonoBehaviour
 
             yield return null;
         }
+
+        // All done, so tell the level manager we've hit a victory
+        onWin.Invoke();
     }
 }
