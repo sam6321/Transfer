@@ -845,10 +845,11 @@ MonoBehaviour:
     title: Test
     description: Test1
     scene: TemplateScene
-  - image: {fileID: 0}
-    title: Test
-    description: Test1
-    scene: TemplateScene
+  - image: {fileID: 21300000, guid: d8b1c51b6bcbd9892b6b075bf2da0cfd, type: 3}
+    title: Just One Button
+    description: This would be easy, if any of the robots could move 1 space at a
+      time
+    scene: CentreButton
 --- !u!1 &1104061906
 GameObject:
   m_ObjectHideFlags: 0
