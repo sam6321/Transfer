@@ -19,6 +19,9 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Mouse events should only interact with robots, not with other elements
+        Physics.queriesHitTriggers = false;
+
         if (Levels != null)
         {
             Scene scene = SceneManager.GetActiveScene();
