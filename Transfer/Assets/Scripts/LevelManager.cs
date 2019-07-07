@@ -22,7 +22,7 @@ public class LevelManager : MonoBehaviour
         if (Levels != null)
         {
             Scene scene = SceneManager.GetActiveScene();
-            int index = Array.IndexOf(Levels, scene);
+            int index = Array.IndexOf(Levels, scene.name);
             if (index >= 0)
             {
                 // Set up the next level that we'll load into when the user wins
