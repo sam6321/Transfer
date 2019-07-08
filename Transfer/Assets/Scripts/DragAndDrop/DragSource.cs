@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class DragSource : MonoBehaviour
 {
@@ -37,9 +38,9 @@ public class DragSource : MonoBehaviour
     {
         if(popup && popup.activeSelf)
         {
-            popup.transform.position = (Vector2)Camera.main.WorldToScreenPoint(transform.position) + popupOffset;
             if (drag)
             {
+                popup.transform.position = (Vector2)Camera.main.WorldToScreenPoint(transform.position) + popupOffset;
                 if(popupFollow)
                 {
                     popup.transform.position = (Vector2)Input.mousePosition + popupOffset;
@@ -86,6 +87,29 @@ public class DragSource : MonoBehaviour
         {
             popup.SetActive(true);
         }
+
+        popup.transform.position = (Vector2)Camera.main.WorldToScreenPoint(transform.position) + popupOffset;
+    }
+
+    private IEnumerator ReturnPopupCoroutine(float time)
+    {
+        Vector2 startPosition = popup.transform.position;
+        Vector2 targetPosition = (Vector2)Camera.main.WorldToScreenPoint(transform.position) + popupOffset;
+        float startTime = Time.time;
+        float targetTime = startTime + time;
+
+        while ((Vector2)popup.transform.position != targetPosition)
+        {
+            float t = Mathf.InverseLerp(startTime, targetTime, Time.time);
+            t = Mathf.SmoothStep(0.0f, 1.0f, t);
+            popup.transform.position = Vector2.Lerp(startPosition, targetPosition, t);
+            yield return null;
+        }
+
+        if (!mousedOver)
+        {
+            HideDragPopup();
+        }
     }
 
     private void HideDragPopup()
@@ -121,7 +145,7 @@ public class DragSource : MonoBehaviour
 
         if (!mousedOver)
         {
-            HideDragPopup();
+            StartCoroutine(ReturnPopupCoroutine(0.25f));
         }
     }
 }
