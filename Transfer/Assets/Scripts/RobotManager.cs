@@ -44,11 +44,11 @@ public class RobotManager : MonoBehaviour
         set => robotActionTime = value;
     }
 
-    private List<Robot> robots = new List<Robot>();
 
     public float NextUpdate { get; private set; } = 0;
-
+    private List<Robot> robots = new List<Robot>();
     private Coroutine robotExecutingCoroutine = null;
+    private bool force = false;
 
     private void Start()
     {
@@ -60,13 +60,18 @@ public class RobotManager : MonoBehaviour
                 robots.Add(robot);
             }
         }
+
+        updateDelay = LevelManager.RobotSpeed;
+        NextUpdate = Time.time + updateDelay;
     }
 
     private void Update()
     {
-        if(Time.time >= NextUpdate && robotExecutingCoroutine == null)
+        bool shouldUpdate = (LevelManager.AutoAdvance && Time.time >= NextUpdate) || force;
+        if (shouldUpdate && robotExecutingCoroutine == null)
         {
             robotExecutingCoroutine = StartCoroutine(ExecuteRobots());
+            force = false;
         }
     }
 
@@ -87,5 +92,6 @@ public class RobotManager : MonoBehaviour
     public void ForceStep()
     {
         NextUpdate = Time.time;
+        force = true;
     }
 }

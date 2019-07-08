@@ -7,6 +7,8 @@ public class LevelManager : MonoBehaviour
 {
     // rip avicii...
     public static string[] Levels { get; set; } = null;
+    public static bool AutoAdvance { get; private set; } = true;
+    public static float RobotSpeed { get; private set; } = 1;
 
     private string nextLevel = null;
 
@@ -69,5 +71,15 @@ public class LevelManager : MonoBehaviour
     {
         // Reload the current level
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void SetAutoAdvance(bool autoAdvance)
+    {
+        AutoAdvance = autoAdvance;
+    }
+
+    public void SetRobotSpeed(float speed)
+    {
+        RobotSpeed = speed;
     }
 }

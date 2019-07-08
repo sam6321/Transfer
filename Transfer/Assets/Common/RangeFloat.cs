@@ -42,13 +42,25 @@ namespace Common
         }
 
         /// <summary>
-        /// Get a value between the start and end, determined by a factor between 0 and 1
+        /// Get the inverse lerp factor that is between start and end.
+        /// This is the inverse of <see cref="Lerp(float)"/>
         /// </summary>
-        /// <param name="factor">The factor, between 0 and 1</param>
-        /// <returns>The value between the start and end at the given factor</returns>
-        public float InverseLerp(float factor)
+        /// <param name="value">The value betwen start and end</param>
+        /// <returns>The factor, as a value between 0 and 1</returns>
+        public float InverseLerp(float value)
         {
-            return Mathf.InverseLerp(start, end, factor);
+            return Mathf.InverseLerp(start, end, value);
+        }
+
+        /// <summary>
+        /// Interpolate between start and end by the given factor.
+        /// This can be inverted with <see cref="InverseLerp(float)"/>
+        /// </summary>
+        /// <param name="factor">The interpolation factor, between 0 and 1</param>
+        /// <returns>The value between start and end corresponding to the interpolation factor</returns>
+        public float Lerp(float factor)
+        {
+            return Mathf.Lerp(start, end, factor);
         }
 
         /// <summary>
