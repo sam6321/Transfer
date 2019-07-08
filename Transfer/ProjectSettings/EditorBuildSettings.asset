@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CentreButton.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/Tutorial1.unity
+    guid: ce8cd1c4bab9bc1b09ecde6855b7228f
   m_configObjects: {}
