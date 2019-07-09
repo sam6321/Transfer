@@ -1507,7 +1507,7 @@ MonoBehaviour:
   - image: {fileID: 0}
     title: Box Pushing Puzzle
     description: Sam puzzle 2
-    scene: Sam_Puzzle3
+    scene: Sam_Puzzle2
 --- !u!1 &1104061906
 GameObject:
   m_ObjectHideFlags: 0
