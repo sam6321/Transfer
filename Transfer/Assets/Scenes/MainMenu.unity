@@ -1493,20 +1493,19 @@ MonoBehaviour:
   levels:
   - image: {fileID: 21300000, guid: d8b1c51b6bcbd9892b6b075bf2da0cfd, type: 3}
     title: Just One Button
-    description: This would be easy, if any of the robots could move 1 space at a
-      time
+    description: Modulo, I curse thee
     scene: CentreButton
-  - image: {fileID: 0}
+  - image: {fileID: 21300000, guid: 5789fa7e7a7cea7d2bce2b612262d41f, type: 3}
     title: Tutorial 1
-    description: Tutorial 1
+    description: The learnening
     scene: Tutorial1
-  - image: {fileID: 0}
-    title: T Puzzle
-    description: Sam puzzle 1
+  - image: {fileID: 21300000, guid: 8987680c55ad3ee2c8c8fbd36d06e141, type: 3}
+    title: T Party
+    description: 2 robots, 1 cup
     scene: Sam_Puzzle1
-  - image: {fileID: 0}
-    title: Box Pushing Puzzle
-    description: Sam puzzle 2
+  - image: {fileID: 21300000, guid: 569b62c4ce1540cc994d9ed5e431219b, type: 3}
+    title: Crate Big Mess
+    description: "\x13\x1AFailure is always an option\x13"
     scene: Sam_Puzzle2
   - image: {fileID: 21300000, guid: fa11fd26f1aff4cee8244372c85861b4, type: 3}
     title: Too Many Chefs
