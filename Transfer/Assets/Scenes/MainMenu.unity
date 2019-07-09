@@ -1491,10 +1491,6 @@ MonoBehaviour:
   levelEntry: {fileID: 3382685115151438576, guid: 6f9b055ea52a88f48b769ebc80d0639b,
     type: 3}
   levels:
-  - image: {fileID: 0}
-    title: Test
-    description: Test1
-    scene: TemplateScene
   - image: {fileID: 21300000, guid: d8b1c51b6bcbd9892b6b075bf2da0cfd, type: 3}
     title: Just One Button
     description: This would be easy, if any of the robots could move 1 space at a
@@ -1504,6 +1500,10 @@ MonoBehaviour:
     title: Tutorial 1
     description: Tutorial 1
     scene: Tutorial1
+  - image: {fileID: 0}
+    title: T Puzzle
+    description: Sam puzzle 1
+    scene: Sam_Puzzle1
 --- !u!1 &1104061906
 GameObject:
   m_ObjectHideFlags: 0
@@ -2671,7 +2671,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28fb1f82478cef24fa9fc175e4bfb4ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1374511703}
 --- !u!1 &2086964034
 GameObject:
   m_ObjectHideFlags: 0
