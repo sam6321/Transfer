@@ -48,11 +48,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d6dab22d383a2f4885cd1608396717e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colourMaterialName: Material.007
+  colourChangePeriod: 0.1
   program:
     actions:
     - {fileID: 11400000, guid: c68e5bb92e41ab447acd2f568ce703ee, type: 2}
     - {fileID: 11400000, guid: 1a64b36b7e9ef924799c8263f9b8b5d6, type: 2}
     - {fileID: 11400000, guid: 1a64b36b7e9ef924799c8263f9b8b5d6, type: 2}
+    colour: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &7590701216249168969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,6 +114,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveType: 0
+  canPush: 1
 --- !u!135 &7590701216249168975
 SphereCollider:
   m_ObjectHideFlags: 0

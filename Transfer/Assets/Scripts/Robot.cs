@@ -1,12 +1,16 @@
 ﻿using System.Collections;
 using UnityEngine;
 using System;
+using Common;
 
 [RequireComponent(typeof(TileMover))]
 public class Robot : MonoBehaviour
 {
     [SerializeField]
     private string colourMaterialName = "Material.007";
+
+    [SerializeField]
+    private float colourChangePeriod = 0.1f;
 
     [SerializeField]
     [Tooltip("The current program that the robot is running")]
@@ -20,6 +24,7 @@ public class Robot : MonoBehaviour
             if(program != value)
             {
                 program = value;
+                SetColour(program.Colour);
                 dragSource.Popup.GetComponent<ProgramPopup>().Program = program;
             }
         }
@@ -30,18 +35,45 @@ public class Robot : MonoBehaviour
     private DragSource dragSource;
     private TileMover mover;
     private TileManager tileManager;
+    private Material colourMaterial;
+
+    private Color fromColour;
+    private Color toColour;
+    private float colourChangeTime = -1;
 
     private void Start()
     {
         tileManager = GameObject.Find("Tiles").GetComponent<TileManager>();
         dragSource = GetComponent<DragSource>();
         mover = GetComponent<TileMover>();
+
+        Material[] materials = GetComponentInChildren<MeshRenderer>().materials;
+        int index = Array.FindIndex(materials, m => m.name.StartsWith(colourMaterialName));
+        colourMaterial = materials[index];
+
         if (program != null)
         {
+            colourMaterial.color = program.Colour;
             dragSource.Popup.GetComponent<ProgramPopup>().Program = program;
         }
     }
+
+    private void SetColour(Color colour)
+    {
+        fromColour = colourMaterial.color;
+        toColour = colour;
+        colourChangeTime = Time.time;
+    }
     
+    private void Update()
+    {
+        if(colourChangeTime >= 0)
+        {
+            float f = MathExtensions.InverseLerpSmoothstep(colourChangeTime, colourChangeTime + colourChangePeriod, Time.time);
+            colourMaterial.color = Color.Lerp(fromColour, toColour, f);
+        }
+    }
+
     /// <summary>
     /// Invokes the current program of the robot
     /// </summary>
