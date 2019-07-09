@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Sam_Puzzle1.unity
     guid: dc980067ba7277f4d9cec126cafaf4bb
+  - enabled: 1
+    path: Assets/Scenes/Sam_Puzzle2.unity
+    guid: a36b9236eb6db514083b3c45b2b86bc5
   m_configObjects: {}
