@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class DragSource : MonoBehaviour
 {
+    static GameObject currentDragPopup = null;
+
     [SerializeField]
     private RectTransform canvas;
 
@@ -10,6 +12,7 @@ public class DragSource : MonoBehaviour
     private GameObject popupPrefab = null;
 
     private GameObject popup = null;
+    private ProgramPopup programPopup = null;
 
     [SerializeField]
     private bool popupFollow = true;
@@ -19,6 +22,7 @@ public class DragSource : MonoBehaviour
 
     private bool mousedOver = false;
     private bool drag = false;
+    private bool returningHome = false;
 
     public GameObject Popup
     {
@@ -27,7 +31,7 @@ public class DragSource : MonoBehaviour
             if (!popup && popupPrefab)
             {
                 popup = Instantiate(popupPrefab, canvas);
-                popup.SetActive(false);
+                programPopup = popup.GetComponent<ProgramPopup>();
             }
 
             return popup;
@@ -36,12 +40,16 @@ public class DragSource : MonoBehaviour
 
     private void LateUpdate()
     {
-        if(popup && popup.activeSelf)
+        if(popup && programPopup.Shown)
         {
-            if (drag)
+            if (!returningHome)
             {
-                popup.transform.position = (Vector2)Camera.main.WorldToScreenPoint(transform.position) + popupOffset;
-                if(popupFollow)
+                UpdatePopupPosition();
+            }
+
+            if (drag)
+            {                
+                if (drag && popupFollow)
                 {
                     popup.transform.position = (Vector2)Input.mousePosition + popupOffset;
                 }
@@ -81,14 +89,12 @@ public class DragSource : MonoBehaviour
         if (!popup)
         {
             popup = Instantiate(popupPrefab, canvas);
+            programPopup = popup.GetComponent<ProgramPopup>();
         }
 
-        if (!popup.activeSelf)
-        {
-            popup.SetActive(true);
-        }
+        programPopup.Shown = true;
 
-        popup.transform.position = (Vector2)Camera.main.WorldToScreenPoint(transform.position) + popupOffset;
+        UpdatePopupPosition();
     }
 
     private IEnumerator ReturnPopupCoroutine(float time)
@@ -98,6 +104,7 @@ public class DragSource : MonoBehaviour
         float startTime = Time.time;
         float targetTime = startTime + time;
 
+        returningHome = true;
         while ((Vector2)popup.transform.position != targetPosition)
         {
             float t = Mathf.InverseLerp(startTime, targetTime, Time.time);
@@ -105,6 +112,7 @@ public class DragSource : MonoBehaviour
             popup.transform.position = Vector2.Lerp(startPosition, targetPosition, t);
             yield return null;
         }
+        returningHome = false;
 
         if (!mousedOver)
         {
@@ -119,15 +127,13 @@ public class DragSource : MonoBehaviour
             return;
         }
 
-        if(Popup.activeSelf)
-        {
-            Popup.SetActive(false);
-        }
+        programPopup.Shown = false;
     }
 
     private void BeginDrag()
     {
         drag = true;
+        currentDragPopup = popup;
     }
 
     private void EndDrag()
@@ -143,9 +149,31 @@ public class DragSource : MonoBehaviour
             }
         }
 
+        currentDragPopup = null;
+
         if (!mousedOver)
         {
             StartCoroutine(ReturnPopupCoroutine(0.25f));
+        }
+    }
+
+    private void UpdatePopupPosition()
+    {
+        popup.transform.position = (Vector2)Camera.main.WorldToScreenPoint(transform.position) + popupOffset;
+        if(currentDragPopup && currentDragPopup != popup)
+        {
+            // updating the position of a popup, while also dragging a popup, so we want to move this popup out of the way
+            RectTransform dragPopupTransform = currentDragPopup.transform as RectTransform;
+            RectTransform popupTransform = popup.transform as RectTransform;
+
+            Vector3 mouse = Input.mousePosition;
+            float dragPopupLeftEdge = dragPopupTransform.position.x - dragPopupTransform.sizeDelta.x * 0.5f;
+            float popupRightEdge = popupTransform.position.x + popupTransform.sizeDelta.x * 0.5f;
+            float push = popupRightEdge - dragPopupLeftEdge;
+            if(push > 0)
+            {
+                popup.transform.position -= new Vector3(push, 0);
+            }
         }
     }
 }

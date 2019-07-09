@@ -16,6 +16,9 @@ public class ProgramPopup : MonoBehaviour
     [SerializeField]
     private GameObject imagePrefab;
 
+    [SerializeField]
+    private float scaleTime = 0.1f;
+
     private List<Image> imagesCache = new List<Image>();
 
     public Program Program
@@ -43,6 +46,40 @@ public class ProgramPopup : MonoBehaviour
             }
 
             LayoutRebuilder.ForceRebuildLayoutImmediate(transform as RectTransform);
+        }
+    }
+
+    private void Start()
+    {
+        transform.localScale = Vector3.zero;
+    }
+
+    private bool shown = false;
+    private float showHideTime = -1;
+    public bool Shown
+    {
+        get => shown;
+        set
+        {
+            shown = value;
+            showHideTime = Time.time;
+        }
+    }
+
+    private void Update()
+    {
+        if (showHideTime >= 0)
+        {
+            float f = Mathf.InverseLerp(showHideTime, showHideTime + scaleTime, Time.time);
+            f = Mathf.SmoothStep(0, 1, f);
+            if (shown)
+            {
+                transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, f);
+            }
+            else
+            {
+                transform.localScale = Vector3.Lerp(Vector3.one, Vector3.zero, f);
+            }
         }
     }
 
