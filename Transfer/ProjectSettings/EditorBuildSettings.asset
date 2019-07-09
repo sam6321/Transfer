@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Sam_Puzzle2.unity
     guid: a36b9236eb6db514083b3c45b2b86bc5
+  - enabled: 1
+    path: Assets/Scenes/TooManyChefs.unity
+    guid: f004c0851b502eb3780ccd28c10b3f26
   m_configObjects: {}
