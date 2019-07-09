@@ -6,6 +6,9 @@ using System;
 public class Robot : MonoBehaviour
 {
     [SerializeField]
+    private string colourMaterialName = "Material.007";
+
+    [SerializeField]
     [Tooltip("The current program that the robot is running")]
     private Program program = null;
 
