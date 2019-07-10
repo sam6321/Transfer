@@ -57,6 +57,11 @@ public class TileBlocker : MonoBehaviour
         }
     }
 
+    public void Toggle()
+    {
+        Block = !Block;
+    }
+
     public BlockType CheckBlock(Vector3 from, Vector3 to)
     {
         if(!Block)
