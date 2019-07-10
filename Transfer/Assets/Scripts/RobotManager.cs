@@ -46,6 +46,8 @@ public class RobotManager : MonoBehaviour
 
 
     public float NextUpdate { get; private set; } = 0;
+    public bool UserHasStarted => !firstTimeStep;
+
     private List<Robot> robots = new List<Robot>();
     private Coroutine robotExecutingCoroutine = null;
     private bool force = false;

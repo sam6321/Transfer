@@ -2,9 +2,17 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using Common;
 
+[RequireComponent(typeof(AudioSource))]
 public class TrophyTile : MonoBehaviour
 {
+    [SerializeField]
+    private AudioGroup onWinAudio;
+
+    [SerializeField]
+    private GameObject onWinParticles;
+
     [Serializable]
     public class OnWinEvent : UnityEvent { }
 
@@ -19,12 +27,23 @@ public class TrophyTile : MonoBehaviour
     private OnPreWinEvent onPreWin = new OnPreWinEvent();
     public OnPreWinEvent OnPreWin => onPreWin;
 
+    private AudioSource audioSource;
+    private bool win = false;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
     public void OnTrigger(TileTrigger.TriggerInfo info)
     {
         // User wins game on trigger!
-        if(info.enter)
+        if(info.enter && !win)
         {
+            win = true;
             onPreWin.Invoke();
+            onWinAudio.PlayRandomOneShot(audioSource);
+            Instantiate(onWinParticles, transform);
             StartCoroutine(WinAnimation());
         }
     }

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a01262d3ffde0644ba19b2f561abf9f7, type: 3}
+  m_Name: Cheer
+  m_EditorClassIdentifier: 
+  assets:
+  - {fileID: 8300000, guid: b973729f21f17024993ee9211454f1e5, type: 3}
+  - {fileID: 8300000, guid: 75d826aa9f536e340a1e856707d6b694, type: 3}
+  - {fileID: 8300000, guid: 493db5c536e88d64da4a5384a3b1bdbe, type: 3}
+  - {fileID: 8300000, guid: 92e53eafe6582d94c84f426781ecde7a, type: 3}
+  - {fileID: 8300000, guid: 5cde281d6f6e584408c3caa4141c6de6, type: 3}
