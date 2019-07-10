@@ -2147,6 +2147,26 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3195843841213491944, guid: 371a1490c4f698a49bc4c4817dbb05d4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1274401269}
+    - target: {fileID: 3195843841213491944, guid: 371a1490c4f698a49bc4c4817dbb05d4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnReturnToMainMenuClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 3195843842131491261, guid: 371a1490c4f698a49bc4c4817dbb05d4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1274401269}
+    - target: {fileID: 3195843842131491261, guid: 371a1490c4f698a49bc4c4817dbb05d4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnNextLevelClick
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 371a1490c4f698a49bc4c4817dbb05d4, type: 3}
 --- !u!114 &1674891005 stripped
