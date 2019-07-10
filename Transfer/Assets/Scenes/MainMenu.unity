@@ -1499,10 +1499,10 @@ MonoBehaviour:
     title: Just One Button
     description: Modulo, I curse thee
     scene: CentreButton
-  - image: {fileID: 21300000, guid: d8b1c51b6bcbd9892b6b075bf2da0cfd, type: 3}
-    title: Just One Button
-    description: Modulo, I curse thee
-    scene: CentreButton
+  - image: {fileID: 21300000, guid: fa11fd26f1aff4cee8244372c85861b4, type: 3}
+    title: Too Many Chefs
+    description: Many hands make light work, right?
+    scene: TooManyChefs
   - image: {fileID: 21300000, guid: 8987680c55ad3ee2c8c8fbd36d06e141, type: 3}
     title: T Party
     description: 2 robots, 1 cup
