@@ -49,6 +49,7 @@ public class RobotManager : MonoBehaviour
     private List<Robot> robots = new List<Robot>();
     private Coroutine robotExecutingCoroutine = null;
     private bool force = false;
+    private bool firstTimeStep = true;
 
     private void Start()
     {
@@ -67,6 +68,11 @@ public class RobotManager : MonoBehaviour
 
     private void Update()
     {
+        if(firstTimeStep)
+        {
+            return;
+        }
+
         bool shouldUpdate = (LevelManager.AutoAdvance && Time.time >= NextUpdate) || force;
         if (shouldUpdate && robotExecutingCoroutine == null)
         {
@@ -93,5 +99,6 @@ public class RobotManager : MonoBehaviour
     {
         NextUpdate = Time.time;
         force = true;
+        firstTimeStep = false;
     }
 }

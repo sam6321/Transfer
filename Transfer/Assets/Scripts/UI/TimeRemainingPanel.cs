@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TimeRemainingPanel : MonoBehaviour
 {
@@ -21,5 +22,10 @@ public class TimeRemainingPanel : MonoBehaviour
     public void OnStep()
     {
         robotManager.ForceStep();
+    }
+
+    public void ResetLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
