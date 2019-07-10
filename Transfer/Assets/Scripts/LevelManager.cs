@@ -47,6 +47,8 @@ public class LevelManager : MonoBehaviour
         {
             nextLevelButton.gameObject.SetActive(nextLevel != null);
         }
+
+        DragSource.EnablePopups();
     }
 
     public void OnNextLevelClick()
@@ -64,6 +66,7 @@ public class LevelManager : MonoBehaviour
 
     public void OnWinLevel()
     {
+        DragSource.DisablePopups();
         levelWinDialog.SetActive(true);
     }
 

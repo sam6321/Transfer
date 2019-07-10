@@ -38,9 +38,28 @@ public class DragSource : MonoBehaviour
         }
     }
 
+    private static bool popupsEnabled = true;
+
+    public static void DisablePopups()
+    {
+        popupsEnabled = false;
+    }
+
+    public static void EnablePopups()
+    {
+        popupsEnabled = true;
+    }
+
     private void LateUpdate()
     {
-        if(popup && programPopup.Shown)
+        if(!popupsEnabled)
+        {
+            drag = false;
+            mousedOver = false;
+            HideDragPopup();
+            Destroy(popup);
+        }
+        else if(popup && programPopup.Shown)
         {
             if (!returningHome)
             {
@@ -64,19 +83,28 @@ public class DragSource : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        mousedOver = true;
-        ShowDragPopup();
+        if(popupsEnabled)
+        {
+            mousedOver = true;
+            ShowDragPopup();
+        }
     }
 
     private void OnMouseDrag()
     {
-        BeginDrag();
+        if(popupsEnabled)
+        {
+            BeginDrag();
+        }
     }
 
     private void OnMouseExit()
     {
-        mousedOver = false;
-        HideDragPopup();
+        if(popupsEnabled)
+        {
+            mousedOver = false;
+            HideDragPopup();
+        }
     }
 
     private void ShowDragPopup()
