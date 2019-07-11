@@ -1495,38 +1495,47 @@ MonoBehaviour:
     title: Tutorial 1
     description: The learnening
     scene: Tutorial1
+    order: 0
   - image: {fileID: 21300000, guid: d8b1c51b6bcbd9892b6b075bf2da0cfd, type: 3}
     title: Just One Button
     description: Modulo, I curse thee
     scene: CentreButton
+    order: 3
   - image: {fileID: 21300000, guid: fa11fd26f1aff4cee8244372c85861b4, type: 3}
     title: Too Many Chefs
     description: Many hands make light work, right?
     scene: TooManyChefs
+    order: 6
   - image: {fileID: 21300000, guid: 8987680c55ad3ee2c8c8fbd36d06e141, type: 3}
     title: T Party
     description: 2 robots, 1 cup
     scene: Sam_Puzzle1
+    order: 2
   - image: {fileID: 21300000, guid: 569b62c4ce1540cc994d9ed5e431219b, type: 3}
     title: Crate Big Mess
     description: "\x13\x1AFailure is always an option\x13"
     scene: Sam_Puzzle2
+    order: 5
   - image: {fileID: 21300000, guid: cf2ad96521a680ee1aafebd2ca42d188, type: 3}
     title: Double Push
     description: Forward, then backward
     scene: Sam_Puzzle3
+    order: 7
   - image: {fileID: 21300000, guid: 77c5a7935b0ffa8428b88f520fad53d6, type: 3}
     title: Sync Happy Thoughts
     description: Round and round we go!
     scene: SyncHappyThoughts
+    order: 8
   - image: {fileID: 21300000, guid: 54484d1d2279f4164bae58c3e4e5bfb4, type: 3}
     title: Tutorial 2
     description: We do need some education
     scene: Tutorial2
+    order: 1
   - image: {fileID: 21300000, guid: e077f2e00259af2ecbddc00c866fd2f6, type: 3}
     title: The Great Divide
     description: Nice, peaceful water
     scene: TheGreatDivide
+    order: 4
 --- !u!1 &1104061906
 GameObject:
   m_ObjectHideFlags: 0

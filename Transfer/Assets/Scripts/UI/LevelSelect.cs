@@ -13,6 +13,7 @@ public class LevelSelect : MonoBehaviour
         public string title;
         public string description;
         public string scene;
+        public int order;
     }
 
     [SerializeField]
@@ -23,6 +24,7 @@ public class LevelSelect : MonoBehaviour
 
     void Start()
     {
+        levels = levels.OrderBy(l => l.order).ToArray();
         LevelManager.Levels = levels.Select(l => l.scene).ToArray();
 
         RectTransform content = GetComponent<ScrollRect>().content;
