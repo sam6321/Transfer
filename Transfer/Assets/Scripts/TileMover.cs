@@ -55,7 +55,7 @@ public class TileMover : MonoBehaviour
         // decided where we can move.
         steps = tileManager.RunMove(transform.position, direction, steps, time, canPush);
 
-        if (steps > 0)
+        if (steps != 0)
         {
             StartCoroutine(MoveCoroutine(direction, steps, time));
         }

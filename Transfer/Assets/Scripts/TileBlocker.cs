@@ -100,7 +100,7 @@ public class TileBlocker : MonoBehaviour
             // Moving onto the tile, in the same direction as the block direction.
             return TileManager.IsSameTile(from, transform.position) ? BlockType.StopInfront : BlockType.MoveOn;
         }
-        else if (blockDirectionDot < -0.95 && (toTileDot < -0.95 || TileManager.IsSameTile(from, transform.position)))
+        else if (blockDirectionDot < -0.95 && toTileDot < -0.95)
         {
             // Trying to move on to the tile, against the block direction.
             return BlockType.StopInfront;

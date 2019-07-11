@@ -4,8 +4,9 @@ public class TileTrigger : MonoBehaviour
 { 
     public class TriggerInfo
     {
-        public Robot robot;
+        public GameObject handle;
         public bool enter;
+        public bool isRobot;
     }
 
     public enum TriggerResponseType
@@ -20,19 +21,11 @@ public class TileTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        Robot robot = collider.GetComponent<Robot>();
-        if(robot)
-        {
-            SendMessage("OnTrigger", new TriggerInfo() { robot = robot, enter = true });
-        }
+        SendMessage("OnTrigger", new TriggerInfo() { handle = collider.gameObject, enter = true, isRobot = collider.GetComponent<Robot>() != null });
     }
 
     private void OnTriggerExit(Collider collider)
     {
-        Robot robot = collider.GetComponent<Robot>();
-        if(robot)
-        {
-            SendMessage("OnTrigger", new TriggerInfo() { robot = robot, enter = false });
-        }
+        SendMessage("OnTrigger", new TriggerInfo() { handle = collider.gameObject, enter = false, isRobot = collider.GetComponent<Robot>() != null });
     }
 }
