@@ -139,7 +139,7 @@ public class Robot : MonoBehaviour
 
     public int Move(int steps, float time)
     {
-        return mover.Move(transform.forward, steps, time);
+        return mover.Move(steps >= 0 ? transform.forward : -transform.forward, steps >= 0 ? steps : -steps, time);
     }
 
     public bool Rotate(int steps, float time)
