@@ -10,16 +10,20 @@ public class GateSounds : MonoBehaviour
     [SerializeField]
     private AudioClip onCloseSound;
 
+    private AudioSource audioSource;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void PlayOnOpenSound()
     {
-        
+        audioSource.PlayOneShot(onOpenSound);
+    }
+
+    public void PlayOnCloseSound()
+    {
+        audioSource.PlayOneShot(onCloseSound);
     }
 }
