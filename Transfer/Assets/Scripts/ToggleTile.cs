@@ -14,6 +14,12 @@ public class ToggleTile : MonoBehaviour
     public class OnToggleOffEvent : UnityEvent { }
 
     [SerializeField]
+    private AudioClip onToggleOnSound;
+
+    [SerializeField]
+    private AudioClip onToggleOffSound;
+
+    [SerializeField]
     [Tooltip("The toggled state")]
     private bool toggled = false;
     public bool Toggled
@@ -28,10 +34,18 @@ public class ToggleTile : MonoBehaviour
                 if(toggled)
                 {
                     onToggleOn.Invoke();
+                    if(onToggleOnSound)
+                    {
+                        audioSource.PlayOneShot(onToggleOnSound);
+                    }
                 }
                 else
                 {
                     OnToggleOff.Invoke();
+                    if (onToggleOffSound)
+                    {
+                        audioSource.PlayOneShot(onToggleOffSound);
+                    }
                 }
 
                 onToggle.Invoke(toggled);
@@ -70,10 +84,12 @@ public class ToggleTile : MonoBehaviour
     public OnToggleOffEvent OnToggleOff => onToggleOff;
 
     private Animator animator;
+    private AudioSource audioSource;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
         Animate();
     }
 
