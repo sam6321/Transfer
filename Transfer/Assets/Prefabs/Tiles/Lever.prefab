@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7087210061097095074}
   - component: {fileID: 6503552270697926998}
   - component: {fileID: 7087210061097095075}
-  - component: {fileID: 8824946024179039341}
   - component: {fileID: 7087210061097095077}
   - component: {fileID: 2987018080529336845}
   - component: {fileID: 1274543791468387762}
@@ -49,6 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed82096397227b541a5b9c436cc80c0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onToggleOnSound: {fileID: 8300000, guid: a2b70154c865ee844b05822d0165eb44, type: 3}
+  onToggleOffSound: {fileID: 8300000, guid: e79c4abde18aa6846b3a8ca88cbd900c, type: 3}
   toggled: 0
   toggleOnEnter: 1
   toggleOnLeave: 0
@@ -81,20 +82,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   responseType: 0
---- !u!114 &8824946024179039341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7087210061097095078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d00601a6d4fd9c44b1cc56ff803271d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onDownSound: {fileID: 8300000, guid: a2b70154c865ee844b05822d0165eb44, type: 3}
-  onUpSound: {fileID: 8300000, guid: e79c4abde18aa6846b3a8ca88cbd900c, type: 3}
 --- !u!95 &7087210061097095077
 Animator:
   serializedVersion: 3
@@ -139,7 +126,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.3
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 0
   Mute: 0
