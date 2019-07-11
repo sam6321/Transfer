@@ -11,6 +11,18 @@ public class TileMover : MonoBehaviour
     }
 
     [SerializeField]
+    private AudioClip rotateStartSound;
+
+    [SerializeField]
+    private AudioClip rotateEndSound;
+
+    [SerializeField]
+    private AudioClip moveStartSound;
+
+    [SerializeField]
+    private AudioClip moveEndSound;
+
+    [SerializeField]
     [Tooltip("When something tries to move into us, this is how we respond")]
     private TileMoveType moveType = TileMoveType.MoveThrough;
     public TileMoveType MoveType { get => moveType; set => moveType = value; }
@@ -21,10 +33,12 @@ public class TileMover : MonoBehaviour
     public bool CanPush { get => canPush; set => canPush = value; }
 
     private TileManager tileManager;
+    private AudioSource audioSource;
 
     private void Start()
     {
         tileManager = GameObject.Find("Tiles").GetComponent<TileManager>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     /// <summary>
@@ -66,6 +80,11 @@ public class TileMover : MonoBehaviour
     {
         tileManager.UnlinkObject(gameObject);
 
+        if(moveStartSound)
+        {
+            audioSource.PlayOneShot(moveStartSound);
+        }
+
         Vector3 startPosition = transform.position;
         Vector3 targetPosition = transform.position + direction * steps;
         float startTime = Time.time;
@@ -79,11 +98,21 @@ public class TileMover : MonoBehaviour
             yield return null;
         }
 
+        if (moveEndSound)
+        {
+            audioSource.PlayOneShot(moveEndSound);
+        }
+
         tileManager.LinkObject(gameObject);
     }
 
     private IEnumerator RotateCoroutine(int steps, float time)
     {
+        if(rotateStartSound)
+        {
+            audioSource.PlayOneShot(rotateStartSound);
+        }
+
         Quaternion startRotation = transform.rotation;
         Quaternion targetRotation = transform.rotation * Quaternion.AngleAxis(steps * 90, Vector3.up);
         float startTime = Time.time;
@@ -95,6 +124,11 @@ public class TileMover : MonoBehaviour
             t = Mathf.SmoothStep(0.0f, 1.0f, t);
             transform.rotation = Quaternion.Slerp(startRotation, targetRotation, t);
             yield return null;
+        }
+
+        if(rotateEndSound)
+        {
+            audioSource.PlayOneShot(rotateEndSound);
         }
     }
 }
