@@ -107,7 +107,7 @@ public class ToggleTile : MonoBehaviour
 
     private void LeverTrigger(TileTrigger.TriggerInfo info)
     {
-        Vector3 dir = transform.InverseTransformDirection(transform.position - info.robot.transform.position);
+        Vector3 dir = transform.InverseTransformDirection(transform.position - info.handle.transform.position);
         Debug.Log(dir);
         if(dir.x > 0.1f)
         {

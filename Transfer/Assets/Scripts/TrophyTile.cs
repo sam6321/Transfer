@@ -38,7 +38,7 @@ public class TrophyTile : MonoBehaviour
     public void OnTrigger(TileTrigger.TriggerInfo info)
     {
         // User wins game on trigger!
-        if(info.enter && !win)
+        if(info.enter && info.isRobot && !win)
         {
             win = true;
             onPreWin.Invoke();
