@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tutorial2.unity
     guid: bd60b02ed5ee15983bbd10ce18d2069a
+  - enabled: 1
+    path: Assets/Scenes/TheGreatDivide.unity
+    guid: d3730217aa1450f0a9097b890c57ec9a
   m_configObjects: {}

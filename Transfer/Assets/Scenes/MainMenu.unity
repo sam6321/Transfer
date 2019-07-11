@@ -1523,6 +1523,10 @@ MonoBehaviour:
     title: Tutorial 2
     description: We do need some education
     scene: Tutorial2
+  - image: {fileID: 21300000, guid: e077f2e00259af2ecbddc00c866fd2f6, type: 3}
+    title: The Great Divide
+    description: Nice, peaceful water
+    scene: TheGreatDivide
 --- !u!1 &1104061906
 GameObject:
   m_ObjectHideFlags: 0
