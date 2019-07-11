@@ -1519,6 +1519,10 @@ MonoBehaviour:
     title: Sync Happy Thoughts
     description: Round and round we go!
     scene: SyncHappyThoughts
+  - image: {fileID: 21300000, guid: 54484d1d2279f4164bae58c3e4e5bfb4, type: 3}
+    title: Tutorial 2
+    description: We do need some education
+    scene: Tutorial2
 --- !u!1 &1104061906
 GameObject:
   m_ObjectHideFlags: 0
