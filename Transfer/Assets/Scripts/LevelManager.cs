@@ -85,4 +85,9 @@ public class LevelManager : MonoBehaviour
     {
         RobotSpeed = speed;
     }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
 }

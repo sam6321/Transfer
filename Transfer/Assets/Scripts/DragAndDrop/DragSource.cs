@@ -20,6 +20,13 @@ public class DragSource : MonoBehaviour
     [SerializeField]
     private Vector2 popupOffset = Vector2.zero;
 
+    [SerializeField]
+    private AudioClip onDragStartSound;
+
+    [SerializeField]
+    private AudioClip onDragDroppedOutsideTargetSound;
+
+    private AudioSource audioSource;
     private bool mousedOver = false;
     private bool drag = false;
     private bool returningHome = false;
@@ -39,6 +46,11 @@ public class DragSource : MonoBehaviour
     }
 
     private static bool popupsEnabled = true;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     public static void DisablePopups()
     {
@@ -160,28 +172,46 @@ public class DragSource : MonoBehaviour
 
     private void BeginDrag()
     {
-        drag = true;
-        currentDragPopup = popup;
+        if(!drag)
+        {
+            drag = true;
+            currentDragPopup = popup;
+
+            if (onDragStartSound)
+            {
+                audioSource.PlayOneShot(onDragStartSound, 2f);
+            }
+        }
     }
 
     private void EndDrag()
     {
-        drag = false;
-        // Check for a drop target
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
+        if(drag)
         {
-            DropTarget target = hit.collider.GetComponent<DropTarget>();
-            if(target)
+            drag = false;
+            // Check for a drop target
+            bool playOnDroppedOusideSound = true;
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
             {
-                target.OnDragSourceDropped(this);
+                DropTarget target = hit.collider.GetComponent<DropTarget>();
+                if (target)
+                {
+                    playOnDroppedOusideSound = false;
+                    target.OnDragSourceDropped(this);
+                }
             }
-        }
 
-        currentDragPopup = null;
+            if (playOnDroppedOusideSound && onDragDroppedOutsideTargetSound)
+            {
+                audioSource.PlayOneShot(onDragDroppedOutsideTargetSound, 2f);
+            }
 
-        if (!mousedOver)
-        {
-            StartCoroutine(ReturnPopupCoroutine(0.25f));
+            currentDragPopup = null;
+
+            if (!mousedOver)
+            {
+                StartCoroutine(ReturnPopupCoroutine(0.25f));
+            }
         }
     }
 

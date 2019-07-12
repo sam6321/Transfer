@@ -135,6 +135,7 @@ MonoBehaviour:
   imagePrefab: {fileID: 4598161408401898095, guid: b36874cd7ae838243b2a5a1887f043ad,
     type: 3}
   scaleTime: 0.1
+  background: {fileID: 8588529391001762588}
 --- !u!1 &8588529391102341861
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,7 +195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
