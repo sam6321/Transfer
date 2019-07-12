@@ -19,6 +19,9 @@ public class ProgramPopup : MonoBehaviour
     [SerializeField]
     private float scaleTime = 0.1f;
 
+    [SerializeField]
+    private Image background;
+
     private List<Image> imagesCache = new List<Image>();
 
     public Program Program
@@ -27,6 +30,10 @@ public class ProgramPopup : MonoBehaviour
         set
         {
             program = value;
+
+            Color color = program.Colour;
+            color.a = 0.2f;
+            background.color = color;
 
             nameText.text = string.Join(", ", program.Actions.Select(a => a.displayName));
 

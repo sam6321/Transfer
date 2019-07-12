@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Reverse2
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 99831fb1dd40d51d39217212fce63ee0, type: 3}
-  displayName: Reverse 1
+  displayName: Reverse 2
   steps: -2

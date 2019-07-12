@@ -74,6 +74,9 @@ MonoBehaviour:
     type: 3}
   popupFollow: 1
   popupOffset: {x: 0, y: 64}
+  onDragStartSound: {fileID: 8300000, guid: 5cc6463cd49f3394b928a93cec6ce475, type: 3}
+  onDragDroppedOutsideTargetSound: {fileID: 8300000, guid: 4c316b0f4596ce149aa063286e831816,
+    type: 3}
 --- !u!114 &7590701216249168974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,6 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d4be5959a404ef4c827cab558187234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onDropSound: {fileID: 8300000, guid: 9f74198e812e6ba4aa98816529b212fd, type: 3}
   onDrop:
     m_PersistentCalls:
       m_Calls:
